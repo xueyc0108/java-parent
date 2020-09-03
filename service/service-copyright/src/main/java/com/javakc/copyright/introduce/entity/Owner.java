@@ -1,4 +1,4 @@
-package com.javakc.copyright.introduction.entity;
+package com.javakc.copyright.introduce.entity;
 
 /**
  * 版权引进模块 版权方管理实体类

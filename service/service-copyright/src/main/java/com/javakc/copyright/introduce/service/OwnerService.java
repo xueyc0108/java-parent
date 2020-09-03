@@ -1,4 +1,4 @@
-package com.javakc.copyright.introduction.service;
+package com.javakc.copyright.introduce.service;
 
 /**
  * 版权方管理逻辑层

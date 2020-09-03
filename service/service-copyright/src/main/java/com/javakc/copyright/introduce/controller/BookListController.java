@@ -1,4 +1,4 @@
-package com.javakc.copyright.introduction.controller;
+package com.javakc.copyright.introduce.controller;
 
 
 /**
