@@ -1,4 +1,4 @@
-package com.javakc.copyright.introduce.dao;
+package com.javakc.copyright.Introduction.dao;
 
 /**
  * 批次管理 数据层

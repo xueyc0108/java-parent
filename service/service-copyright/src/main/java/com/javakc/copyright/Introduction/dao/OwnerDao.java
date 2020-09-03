@@ -1,4 +1,4 @@
-package com.javakc.copyright.introduce.dao;
+package com.javakc.copyright.Introduction.dao;
 
 /**
  * 版权方管理 数据层
