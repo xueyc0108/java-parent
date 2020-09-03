@@ -1,4 +1,4 @@
 package com.javakc.copyright.output.entity;
 
-public class Introduction {
+public class Operator {
 }
