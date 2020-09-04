@@ -35,3 +35,5 @@ spring:
     time-zone: GMT+8
   jpa:
     show-sql: true
+    hibernate:
+      ddl-auto: update

@@ -75,4 +75,6 @@ public class SimpleSpecificationBuilder<T> {
         return specification;
     }
 
+    public void add(String code, String eq, Integer code1) {
+    }
 }

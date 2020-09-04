@@ -21,6 +21,15 @@ import java.util.Date;
 @EntityListeners(AuditingEntityListener.class)
 public class Book {
 
+    @OneToOne
+    @JoinColumn(name = "first_sort")
+    private Classification classification1;
+
+
+    @OneToOne
+    @JoinColumn(name = "second_sort")
+    private Classification classification2;
+
     @Id
     @Column(name = "id")
     @GeneratedValue(generator = "generator_uuid")
@@ -31,6 +40,50 @@ public class Book {
     @Column(name = "title")
     @ApiModelProperty(value = "书名")
     private String title;
+    @Column(name = "author")
+    @ApiModelProperty(value = "作者名")
+    private String author;
+
+//    @Column(name = "first_sort")
+//    @ApiModelProperty(value = "一级分类")
+//    private Integer firstSort;
+//
+//    @Column(name = "second_sort")
+//    @ApiModelProperty(value = "二级分类")
+//    private Integer secondSort;
+
+    @Column(name = "is_serial")
+    @ApiModelProperty(value = "是否连载")
+    private Integer serialize;
+
+    @Column(name = "word_number")
+    @ApiModelProperty(value = "字数")
+    private Integer wordNumber;
+
+    @Column(name = "is_state")
+    @ApiModelProperty(value = "状态 是否上线")
+    private Integer status;
+
+    @Column(name = "is_charge")
+    @ApiModelProperty(value = "是否收费")
+    private Integer free;
+
+    @Column(name = "start_time")
+    @ApiModelProperty(value = "授权开始时间")
+    private Date startTime;
+
+    @Column(name = "end_time")
+    @ApiModelProperty(value = "授权结束时间")
+    private Date endTime;
+
+    @Column(name = "is_original")
+    @ApiModelProperty(value = "是否原创")
+    private Integer original;
+
+    @Column(name = "info")
+    @ApiModelProperty(value = "简介")
+    private String info;
+
 
     @Column(name = "gmt_create",nullable = false,updatable = false)
     @ApiModelProperty(value = "创建时间", example = "2020-12-12 9:00:00")

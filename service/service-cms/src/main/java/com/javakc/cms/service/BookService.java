@@ -38,6 +38,12 @@ public class BookService extends BaseService<BookDao,Book> {
             if (!StringUtils.isEmpty(bookQuery.getTitle())) {
                 simpleSpecificationBuilder.and("title", ":", bookQuery.getTitle());
             }
+            if (!StringUtils.isEmpty(bookQuery.getBeginDate())) {
+                simpleSpecificationBuilder.and("startTime", "ge", bookQuery.getBeginDate());
+            }
+            if (!StringUtils.isEmpty(bookQuery.getEndDate())) {
+                simpleSpecificationBuilder.and("startTime", "lt", bookQuery.getEndDate());
+            }
         }
         Specification<Book> specification = simpleSpecificationBuilder.getSpecification();
 

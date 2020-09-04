@@ -1,7 +1,9 @@
 package com.javakc.cms.controller;
 
 import com.javakc.cms.entity.Book;
+import com.javakc.cms.entity.Classification;
 import com.javakc.cms.service.BookService;
+import com.javakc.cms.service.ClassificationService;
 import com.javakc.cms.vo.BookQuery;
 import com.javakc.commonutils.api.APICODE;
 import com.javakc.commonutils.api.ResultCode;
@@ -18,10 +20,13 @@ import java.util.List;
 @Api(tags = "书籍管理")
 @RestController
 @RequestMapping("/cms/book")
+@CrossOrigin
 public class BookController {
 
     @Autowired
     private BookService bookService;
+    @Autowired
+    private ClassificationService classificationService;
 
     @GetMapping
     @ApiOperation(value = "查询所有书籍",response = Book.class)
@@ -31,8 +36,8 @@ public class BookController {
     }
 
     @ApiOperation(value = "根据条件进行分页查询")
-    @PostMapping("{pageNo}/{pageSize}")
-    public APICODE findPageBook(BookQuery bookQuery, @PathVariable int pageNo, @PathVariable int pageSize) {
+    @PostMapping("{pageNo}/{pageSize}") //@RequestBody(required = false) 设置传入对象可以为空
+    public APICODE findPageBook(@RequestBody(required = false) BookQuery bookQuery, @PathVariable int pageNo, @PathVariable int pageSize) {
         Page<Book> page = bookService.findPageBook(bookQuery, pageNo, pageSize);
         long totalElements = page.getTotalElements();
         List<Book> bookList = page.getContent();
@@ -66,6 +71,22 @@ public class BookController {
         bookService.removeById(bookId);
         return APICODE.OK();
     }
+    @ApiOperation(value = "设置书籍上下架")
+    @PutMapping("{bookId}/{status}")
+    public APICODE upOrDownBook(@PathVariable String bookId, @PathVariable Integer status) {
+        // ## 根据id查询书籍数据
+        Book book = bookService.getById(bookId);
+        book.setId(bookId);
+        book.setStatus(status);
+        // ## 修改数据
+        bookService.saveOrUpdate(book);
+        return APICODE.OK();
+    }
+    @PostMapping("queryByLevel")
+    public APICODE queryByLevel(@RequestBody Classification classification){
 
+        List<Classification> pageBook = classificationService.findPageBook(classification);
 
+        return APICODE.OK().data("classification",pageBook);
+    }
 }

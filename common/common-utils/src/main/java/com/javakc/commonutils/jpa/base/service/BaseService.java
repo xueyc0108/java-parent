@@ -21,6 +21,9 @@ public class BaseService<D extends BaseDao, T>{
     @Autowired
     protected D dao;
 
+
+
+
     /**
      * 动态条件查询或查询所有
      * @param specification 动态条件参数
