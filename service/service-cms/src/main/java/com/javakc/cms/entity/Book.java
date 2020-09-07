@@ -84,6 +84,10 @@ public class Book {
     @ApiModelProperty(value = "简介")
     private String info;
 
+    @Column(name = "image_url")
+    @ApiModelProperty(value = "书封")
+    private String imageUrl;
+
 
     @Column(name = "gmt_create",nullable = false,updatable = false)
     @ApiModelProperty(value = "创建时间", example = "2020-12-12 9:00:00")
