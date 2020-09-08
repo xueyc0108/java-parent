@@ -1,20 +1,30 @@
 package com.javakc.cms.controller;
 
+import com.alibaba.excel.EasyExcel;
 import com.javakc.cms.entity.Book;
 import com.javakc.cms.entity.Classification;
+import com.javakc.cms.listener.ExcelListener;
 import com.javakc.cms.service.BookService;
 import com.javakc.cms.service.ClassificationService;
+import com.javakc.cms.utils.BookUtils;
+import com.javakc.cms.vo.BookData;
 import com.javakc.cms.vo.BookQuery;
 import com.javakc.commonutils.api.APICODE;
 import com.javakc.commonutils.api.ResultCode;
 import com.javakc.servicebase.hanler.HctfException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.List;
 
 @Api(tags = "书籍管理")
@@ -89,4 +99,40 @@ public class BookController {
 
         return APICODE.OK().data("classification",pageBook);
     }
+
+    @ApiOperation(value = "列表导出", notes = "使用阿里EasyExcel导出Excel格式的用户列表数据")
+    @GetMapping("exportEasyExcel")
+    public void exportEasyExcel(HttpServletResponse response) {
+        try {
+            // ## 查询所有书籍
+            List<Book> bookList = bookService.findAll();
+            // ## 定义导出列表集合
+            List<BookData> bookDataList = new ArrayList<>();
+            for (Book book : bookList) {
+                BookData bookData = new BookData();
+                BookData bookData1 = BookUtils.copyBook(book, bookData);
+                bookDataList.add(bookData1);
+            }
+            String fileName = "booklist";
+            // ## 设置响应信息
+            response.reset();
+            response.setContentType("application/vnd.ms-excel; charset=utf-8");
+            response.setCharacterEncoding("utf-8");
+            response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, "utf-8") + ".xlsx");
+            EasyExcel.write(response.getOutputStream(), BookData.class).sheet("书籍列表").doWrite(bookDataList);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    @ApiOperation(value = "列表导入", notes = "使用阿里EasyExcel导入Excel格式的用户列表数据")
+    @PostMapping("importEasyExcel")
+    public APICODE importEasyExcel(MultipartFile file) {
+        try {
+            EasyExcel.read(file.getInputStream(), BookData.class, new ExcelListener(bookService)).sheet().doRead();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return APICODE.OK();
+    }
+
 }
