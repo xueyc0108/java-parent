@@ -30,6 +30,22 @@ public class OwnerContactService extends BaseService<OwnerContactDao, OwnerConta
         return ownerContactDao.findAll();
     }
     public Page<OwnerContact> findPageOwnerContact(OwnerContactQuery ownerContactQuery, int pageNo , int pageSize) {
+
+//        SimpleSpecificationBuilder simpleSpecificationBuilder = new SimpleSpecificationBuilder();
+//        if (null != ownerContactQuery){
+//            if (!StringUtils.isEmpty(ownerContactQuery.getCopyrightName())) {
+//                int ownerId=ownerContactDao.findIdByName(ownerContactQuery.getCopyrightName());
+//                simpleSpecificationBuilder.and("ownerId", "=", ownerId);
+//            }
+//            if (!StringUtils.isEmpty(ownerContactQuery.getName())) {
+//                simpleSpecificationBuilder.and("name", "ge", ownerContactQuery.getName());
+//            }
+//
+//        }
+//        Specification<OwnerContact> specification = simpleSpecificationBuilder.getSpecification();
+//
+//        Page page = ownerContactDao.findAll(specification, PageRequest.of(pageNo - 1, pageSize));
+
         Specification<OwnerContact> specification = new Specification<OwnerContact>() {
             @Override
             public Predicate toPredicate(Root<OwnerContact> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
