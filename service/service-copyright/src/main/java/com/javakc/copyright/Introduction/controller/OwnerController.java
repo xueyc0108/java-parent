@@ -4,6 +4,7 @@ package com.javakc.copyright.Introduction.controller;
 import com.javakc.commonutils.api.APICODE;
 import com.javakc.copyright.Introduction.entity.Owner;
 import com.javakc.copyright.Introduction.service.OwnerService;
+import com.javakc.copyright.Introduction.vo.QueryOwner;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiOperation;
@@ -20,6 +21,7 @@ import java.util.List;
 @Api(tags = "版权方管理")
 @RestController
 @RequestMapping("copyright/introduction/owner")
+@CrossOrigin
 public class OwnerController {
 
     @Autowired
@@ -32,7 +34,7 @@ public class OwnerController {
     }
 
     @PostMapping("{pageNo}/{pageSize}")
-    public APICODE findPageOwner(@RequestBody(required = false)Owner owner,@PathVariable int pageNo, @PathVariable int pageSize){
+    public APICODE findPageOwner(@RequestBody(required = false) QueryOwner owner, @PathVariable int pageNo, @PathVariable int pageSize){
         Page<Owner> page = ownerService.findPageOwner(owner, pageNo, pageSize);
         long totalElements = page.getTotalElements();
         List<Owner> list=page.getContent();

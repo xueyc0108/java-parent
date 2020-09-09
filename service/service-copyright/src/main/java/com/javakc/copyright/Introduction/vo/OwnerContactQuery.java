@@ -6,4 +6,5 @@ import lombok.Data;
 public class OwnerContactQuery {
     private String copyrightName ;//版权名
     private String name;//姓名
+
 }

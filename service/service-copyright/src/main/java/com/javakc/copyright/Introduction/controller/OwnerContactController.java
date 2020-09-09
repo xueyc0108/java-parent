@@ -16,6 +16,7 @@ import java.util.List;
 @Api(tags = "版权方客户管理")
 @RestController
 @RequestMapping("copyright/introduction/ownerContact")
+@CrossOrigin
 public class OwnerContactController {
     @Autowired
     private OwnerContactService ownerContactService;

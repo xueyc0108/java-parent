@@ -4,6 +4,7 @@ import com.javakc.commonutils.jpa.base.service.BaseService;
 import com.javakc.commonutils.jpa.dynamic.SimpleSpecificationBuilder;
 import com.javakc.copyright.Introduction.dao.OwnerDao;
 import com.javakc.copyright.Introduction.entity.Owner;
+import com.javakc.copyright.Introduction.vo.QueryOwner;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
@@ -22,7 +23,7 @@ public class OwnerService extends BaseService<OwnerDao, Owner> {
         return dao.findAll();
     }
 
-    public Page<Owner> findPageOwner(Owner owner, int pageNo , int pageSize) {
+    public Page<Owner> findPageOwner(QueryOwner owner, int pageNo , int pageSize) {
         SimpleSpecificationBuilder simpleSpecificationBuilder = new SimpleSpecificationBuilder();
         if (null != owner){
             if (!StringUtils.isEmpty(owner.getCopyrightName())) {
