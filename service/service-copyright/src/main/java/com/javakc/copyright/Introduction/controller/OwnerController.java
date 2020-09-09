@@ -31,6 +31,7 @@ public class OwnerController {
         return APICODE.OK().data("items",ownerService.findAll());
     }
 
+    @ApiOperation(value = "根据条件进行分页查询")
     @PostMapping("{pageNo}/{pageSize}")
     public APICODE findPageOwner(@RequestBody(required = false)Owner owner,@PathVariable int pageNo, @PathVariable int pageSize){
         Page<Owner> page = ownerService.findPageOwner(owner, pageNo, pageSize);
@@ -38,6 +39,34 @@ public class OwnerController {
         List<Owner> list=page.getContent();
 
         return APICODE.OK().data("total",totalElements).data("items",list);
+    }
+
+    @ApiOperation(value = "新增版权方")
+    @PostMapping("saveOwner")
+    public APICODE saveOwner(@RequestBody Owner owner) {
+        ownerService.saveOrUpdate(owner);
+        return APICODE.OK();
+    }
+
+    @ApiOperation(value = "根据ID获取书籍")
+    @GetMapping("getOwnerById/{ownerId}")
+    public APICODE getOwnerById(@PathVariable Integer ownerId) {
+        Owner owner = ownerService.getById(ownerId);
+        return APICODE.OK().data("owner", owner);
+    }
+
+    @ApiOperation(value = "修改版权方")
+    @PostMapping("updateOwner")
+    public APICODE updateOwner(@RequestBody Owner owner) {
+        ownerService.saveOrUpdate(owner);
+        return APICODE.OK();
+    }
+
+    @ApiOperation(value = "根据ID删除书籍")
+    @DeleteMapping("deleteById/{ownerId}")
+    public APICODE deleteById(@PathVariable Integer ownerId) {
+        ownerService.removeById(ownerId);
+        return APICODE.OK();
     }
 
 }
