@@ -54,9 +54,13 @@ public class OwnerContactService extends BaseService<OwnerContactDao, OwnerConta
                 if(!StringUtils.isEmpty(ownerContactQuery.getName())){
                     exList.add(cb.equal(root.get("name"), ownerContactQuery.getName()));
                 }
-                if (!StringUtils.isEmpty(ownerContactQuery.getCopyrightName())) {
+                if (!StringUtils.isEmpty(ownerContactQuery.getOwnerId())) {
                     Join<Owner, OwnerContact> join = root.join("owner", JoinType.LEFT);
-                    exList.add(cb.equal(join.get("copyrightName"), ownerContactQuery.getCopyrightName()));
+                    exList.add(cb.equal(join.get("id"), ownerContactQuery.getOwnerId()));
+                }
+                if(!StringUtils.isEmpty(ownerContactQuery.getDuties())){
+                    //封装职务条件
+                    exList.add(cb.equal(root.get("duties"), ownerContactQuery.getDuties()));
                 }
                 return predicate;
             }
