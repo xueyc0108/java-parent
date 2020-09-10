@@ -48,7 +48,7 @@ public class OwnerController {
         return APICODE.OK();
     }
 
-    @ApiOperation(value = "根据ID获取书籍")
+    @ApiOperation(value = "根据ID获取版权方")
     @GetMapping("getOwnerById/{ownerId}")
     public APICODE getOwnerById(@PathVariable Integer ownerId) {
         Owner owner = ownerService.getById(ownerId);
@@ -62,7 +62,7 @@ public class OwnerController {
         return APICODE.OK();
     }
 
-    @ApiOperation(value = "根据ID删除书籍")
+    @ApiOperation(value = "根据ID删除版权方")
     @DeleteMapping("deleteById/{ownerId}")
     public APICODE deleteById(@PathVariable Integer ownerId) {
         ownerService.removeById(ownerId);
