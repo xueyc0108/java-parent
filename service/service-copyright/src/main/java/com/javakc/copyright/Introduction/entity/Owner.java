@@ -33,4 +33,12 @@ public class Owner {
     @ApiModelProperty(value = "备注名")
     private String noteName ;
 
+//    @Column(name = "cooperation_status")
+//    @ApiModelProperty(value = "合作状态")
+//    private Integer cooperationStatus;//合作状态  1：生效   0：失效
+//
+//    @Column(name = "info")
+//    @ApiModelProperty(value = "版权简介")
+//    private String info;//版权简介
+
 }

@@ -30,7 +30,7 @@ public class OwnerContactController {
 
     @ApiOperation(value = "根据条件进行分页查询")
     @PostMapping("{pageNo}/{pageSize}")
-    public APICODE findPageOwner(@RequestBody(required = false) OwnerContactQuery ownerContactQuery, @PathVariable int pageNo, @PathVariable int pageSize){
+    public APICODE findPageOwnerContact(@RequestBody(required = false) OwnerContactQuery ownerContactQuery, @PathVariable int pageNo, @PathVariable int pageSize){
         Page<OwnerContact> page = ownerContactService.findPageOwnerContact(ownerContactQuery, pageNo, pageSize);
         long totalElements = page.getTotalElements();
         List<OwnerContact> list=page.getContent();
@@ -40,7 +40,7 @@ public class OwnerContactController {
 
     @ApiOperation(value = "新增版权客户")
     @PostMapping("saveOwnerContact")
-    public APICODE saveBook(@RequestBody OwnerContact ownerContact) {
+    public APICODE saveOwnerContact(@RequestBody OwnerContact ownerContact) {
         ownerContactService.saveOrUpdate(ownerContact);
         return APICODE.OK();
     }
