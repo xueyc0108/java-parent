@@ -21,14 +21,14 @@ import java.util.Date;
 @EntityListeners(AuditingEntityListener.class)
 public class Book {
 
-    @OneToOne
-    @JoinColumn(name = "first_sort")
-    private Classification classification1;
-
-
-    @OneToOne
-    @JoinColumn(name = "second_sort")
-    private Classification classification2;
+//    @OneToOne
+//    @JoinColumn(name = "first_sort")
+//    private Classification classification1;
+//
+//
+//    @OneToOne
+//    @JoinColumn(name = "second_sort")
+//    private Classification classification2;
 
     @Id
     @Column(name = "id")
@@ -44,13 +44,13 @@ public class Book {
     @ApiModelProperty(value = "作者名")
     private String author;
 
-//    @Column(name = "first_sort")
-//    @ApiModelProperty(value = "一级分类")
-//    private Integer firstSort;
-//
-//    @Column(name = "second_sort")
-//    @ApiModelProperty(value = "二级分类")
-//    private Integer secondSort;
+    @Column(name = "first_sort")
+    @ApiModelProperty(value = "一级分类")
+    private String firstSort;
+
+    @Column(name = "second_sort")
+    @ApiModelProperty(value = "二级分类")
+    private String secondSort;
 
     @Column(name = "is_serial")
     @ApiModelProperty(value = "是否连载")

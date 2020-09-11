@@ -2,27 +2,22 @@ package com.javakc.cms.controller;
 
 import com.alibaba.excel.EasyExcel;
 import com.javakc.cms.entity.Book;
-import com.javakc.cms.entity.Classification;
 import com.javakc.cms.listener.ExcelListener;
 import com.javakc.cms.service.BookService;
-import com.javakc.cms.service.ClassificationService;
-import com.javakc.cms.utils.BookUtils;
+import com.javakc.cms.service.OssService;
 import com.javakc.cms.vo.BookData;
 import com.javakc.cms.vo.BookQuery;
 import com.javakc.commonutils.api.APICODE;
-import com.javakc.commonutils.api.ResultCode;
-import com.javakc.servicebase.hanler.HctfException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +31,14 @@ public class BookController {
     @Autowired
     private BookService bookService;
     @Autowired
-    private ClassificationService classificationService;
+    private OssService ossService;
+
+    @DeleteMapping("deleteFile")
+    @ApiOperation("删除图片")
+    public APICODE deleteFile(@RequestBody String url){
+        ossService.deleteFile(url);
+        return APICODE.OK();
+    }
 
     @GetMapping
     @ApiOperation(value = "查询所有书籍",response = Book.class)
@@ -71,7 +73,12 @@ public class BookController {
     @ApiOperation(value = "修改书籍")
     @PostMapping("updateBook")
     public APICODE updateBook(@RequestBody Book book) {
+        Book byId = bookService.getById(book.getId());
+        if (!byId.getImageUrl().equals(book.getImageUrl()) && ""!=byId.getImageUrl()){
+            ossService.deleteFile(byId.getImageUrl()); //删除旧图片
+        }
         bookService.saveOrUpdate(book);
+
         return APICODE.OK();
     }
 
@@ -92,13 +99,6 @@ public class BookController {
         bookService.saveOrUpdate(book);
         return APICODE.OK();
     }
-    @PostMapping("queryByLevel")
-    public APICODE queryByLevel(@RequestBody Classification classification){
-
-        List<Classification> pageBook = classificationService.findPageBook(classification);
-
-        return APICODE.OK().data("classification",pageBook);
-    }
 
     @ApiOperation(value = "列表导出", notes = "使用阿里EasyExcel导出Excel格式的用户列表数据")
     @GetMapping("exportEasyExcel")
@@ -110,8 +110,8 @@ public class BookController {
             List<BookData> bookDataList = new ArrayList<>();
             for (Book book : bookList) {
                 BookData bookData = new BookData();
-                BookData bookData1 = BookUtils.copyBook(book, bookData);
-                bookDataList.add(bookData1);
+                BeanUtils.copyProperties(book,bookData);
+                bookDataList.add(bookData);
             }
             String fileName = "booklist";
             // ## 设置响应信息
@@ -134,5 +134,6 @@ public class BookController {
         }
         return APICODE.OK();
     }
+
 
 }

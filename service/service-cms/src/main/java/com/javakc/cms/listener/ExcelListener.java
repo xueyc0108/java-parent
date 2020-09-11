@@ -4,8 +4,8 @@ import com.alibaba.excel.context.AnalysisContext;
 import com.alibaba.excel.event.AnalysisEventListener;
 import com.javakc.cms.entity.Book;
 import com.javakc.cms.service.BookService;
-import com.javakc.cms.utils.BookUtils;
 import com.javakc.cms.vo.BookData;
+import org.springframework.beans.BeanUtils;
 
 public class ExcelListener extends AnalysisEventListener<BookData> {
 
@@ -21,8 +21,8 @@ public class ExcelListener extends AnalysisEventListener<BookData> {
     @Override
     public void invoke(BookData bookData, AnalysisContext analysisContext) {
         Book book=new Book();
-
-        bookService.saveOrUpdate(BookUtils.copyBookData(book, bookData));
+        BeanUtils.copyProperties(bookData,book);
+        bookService.saveOrUpdate(book);
 
     }
 
